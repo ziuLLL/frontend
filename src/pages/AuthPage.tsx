@@ -20,68 +20,307 @@ export default function AuthPage() {
     } catch { /* error shown via store */ }
   };
 
+  const styles: Record<string, React.CSSProperties> = {
+    page: {
+      minHeight: '100vh',
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      fontFamily: "'DM Sans', sans-serif",
+      background: '#0B1224',
+      color: '#F0EDE8',
+    },
+    left: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      padding: '60px 72px',
+    },
+    eyebrow: {
+      fontSize: 11,
+      fontWeight: 500,
+      letterSpacing: '0.12em',
+      color: '#C9A96E',
+      textTransform: 'uppercase',
+      marginBottom: 20,
+    },
+    title: {
+      fontFamily: "'DM Serif Display', serif",
+      fontSize: 36,
+      lineHeight: 1.15,
+      color: '#F0EDE8',
+      marginBottom: 8,
+    },
+    subtitle: {
+      fontSize: 14,
+      color: '#8A92A8',
+      marginBottom: 44,
+      fontWeight: 300,
+    },
+    fieldWrap: { marginBottom: 20 },
+    label: {
+      display: 'block',
+      fontSize: 12,
+      fontWeight: 500,
+      color: '#8A92A8',
+      letterSpacing: '0.06em',
+      textTransform: 'uppercase',
+      marginBottom: 8,
+    },
+    input: {
+      width: '100%',
+      background: 'rgba(255,255,255,0.04)',
+      border: '1px solid rgba(255,255,255,0.08)',
+      borderRadius: 8,
+      padding: '13px 16px',
+      fontFamily: "'DM Sans', sans-serif",
+      fontSize: 14,
+      color: '#F0EDE8',
+      outline: 'none',
+    },
+    hint: { fontSize: 12, color: '#545F7A', marginTop: 6 },
+    submitBtn: {
+      width: '100%',
+      background: '#C9A96E',
+      color: '#0B1224',
+      border: 'none',
+      padding: '14px',
+      borderRadius: 8,
+      fontFamily: "'DM Sans', sans-serif",
+      fontSize: 14,
+      fontWeight: 500,
+      cursor: 'pointer',
+      marginTop: 8,
+    },
+    divider: { display: 'flex', alignItems: 'center', gap: 16, margin: '24px 0' },
+    dividerLine: { flex: 1, border: 'none', borderTop: '1px solid rgba(255,255,255,0.08)' },
+    dividerText: { fontSize: 12, color: '#545F7A' },
+    altBtn: {
+      width: '100%',
+      background: 'rgba(255,255,255,0.04)',
+      border: '1px solid rgba(255,255,255,0.08)',
+      color: '#8A92A8',
+      padding: 12,
+      borderRadius: 8,
+      fontFamily: "'DM Sans', sans-serif",
+      fontSize: 13,
+      cursor: 'pointer',
+    },
+    tabRow: {
+      display: 'flex',
+      gap: 4,
+      background: 'rgba(255,255,255,0.04)',
+      borderRadius: 8,
+      padding: 4,
+      marginBottom: 28,
+    },
+    errorBox: {
+      background: 'rgba(224,92,92,0.1)',
+      border: '1px solid rgba(224,92,92,0.2)',
+      borderRadius: 8,
+      padding: '12px 16px',
+      fontSize: 13,
+      color: '#E05C5C',
+      marginBottom: 16,
+    },
+    right: {
+      background: '#16213E',
+      position: 'relative',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
+      padding: 48,
+    },
+    rightBg: {
+      position: 'absolute',
+      inset: 0,
+      background: 'linear-gradient(135deg, #0B1224 0%, #1A2744 50%, #0f1e3a 100%)',
+    },
+    rightPattern: {
+      position: 'absolute',
+      inset: 0,
+      opacity: 0.06,
+      backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(201,169,110,0.8) 1px, transparent 0)',
+      backgroundSize: '32px 32px',
+    },
+    badge: {
+      position: 'absolute',
+      top: 48,
+      right: 48,
+      zIndex: 2,
+      background: 'rgba(201,169,110,0.12)',
+      border: '1px solid rgba(201,169,110,0.2)',
+      borderRadius: 100,
+      padding: '8px 18px',
+      fontSize: 12,
+      color: '#C9A96E',
+      letterSpacing: '0.05em',
+    },
+    quote: {
+      position: 'relative',
+      zIndex: 2,
+      borderLeft: '2px solid #C9A96E',
+      paddingLeft: 24,
+    },
+    quoteText: {
+      fontFamily: "'DM Serif Display', serif",
+      fontStyle: 'italic',
+      fontSize: 19,
+      lineHeight: 1.55,
+      color: '#F0EDE8',
+      marginBottom: 16,
+    },
+    quoteAuthor: { fontSize: 13, color: '#8A92A8' },
+  };
+
+  const tabStyle = (m: 'login' | 'register'): React.CSSProperties => ({
+    flex: 1,
+    padding: '9px 0',
+    borderRadius: 6,
+    fontWeight: 500,
+    fontSize: 13,
+    cursor: 'pointer',
+    border: 'none',
+    fontFamily: "'DM Sans', sans-serif",
+    transition: 'all 0.2s',
+    background: mode === m ? '#C9A96E' : 'transparent',
+    color: mode === m ? '#0B1224' : '#8A92A8',
+  });
+
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16, background: 'var(--bg)' }}>
-      {/* Background glow */}
-      <div style={{ position: 'fixed', top: '20%', left: '50%', transform: 'translateX(-50%)', width: 600, height: 600, background: 'radial-gradient(circle, rgba(99,102,241,.12) 0%, transparent 70%)', pointerEvents: 'none' }} />
+    <>
+      {/* Google Fonts — adicione no index.html se preferir */}
+      <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Serif+Display:ital@0;1&display=swap"
+        rel="stylesheet"
+      />
 
-      <div style={{ width: '100%', maxWidth: 420, position: 'relative' }}>
-        {/* Logo */}
-        <div style={{ textAlign: 'center', marginBottom: 36 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'linear-gradient(135deg,var(--accent),var(--purple))', padding: '10px 20px', borderRadius: 14, marginBottom: 12 }}>
-            <span style={{ fontFamily: 'var(--font-head)', fontSize: 20, fontWeight: 800, color: '#fff', letterSpacing: 1 }}>FAETEC PRO</span>
-          </div>
-          <div style={{ fontSize: 14, color: 'var(--muted)' }}>Preparatório COSEAC — Plataforma Enterprise</div>
-        </div>
+      <div style={styles.page}>
+        {/* ── ESQUERDA: formulário ── */}
+        <div style={styles.left}>
+          <div style={styles.eyebrow}>Bem-vindo de volta</div>
+          <h1 style={styles.title}>Acesse sua<br />conta</h1>
+          <p style={styles.subtitle}>Continue de onde parou.</p>
 
-        {/* Card */}
-        <div className="card" style={{ padding: 32 }}>
-          {/* Tabs */}
-          <div style={{ display: 'flex', gap: 4, background: 'var(--bg3)', borderRadius: 'var(--r-md)', padding: 4, marginBottom: 24 }}>
+          {/* Tabs login / criar conta */}
+          <div style={styles.tabRow}>
             {(['login', 'register'] as const).map(m => (
-              <button key={m} onClick={() => { setMode(m); clearError(); }}
-                style={{ flex: 1, padding: '8px 0', borderRadius: 'var(--r-sm)', fontWeight: 600, fontSize: 13, cursor: 'pointer', transition: 'all var(--transition)', background: mode === m ? 'var(--accent)' : 'transparent', color: mode === m ? '#fff' : 'var(--muted)' }}>
+              <button
+                key={m}
+                style={tabStyle(m)}
+                onClick={() => { setMode(m); clearError(); }}
+              >
                 {m === 'login' ? 'Entrar' : 'Criar conta'}
               </button>
             ))}
           </div>
 
-          {error && <div className="alert alert-error" style={{ marginBottom: 16 }}>{error}</div>}
+          {error && <div style={styles.errorBox}>{error}</div>}
 
           <form onSubmit={submit}>
             {mode === 'register' && (
-              <div className="input-group">
-                <label className="input-label">Nome completo</label>
-                <input className="input" type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Seu nome" required minLength={2} autoComplete="name" />
+              <div style={styles.fieldWrap}>
+                <label style={styles.label}>Nome completo</label>
+                <input
+                  style={styles.input}
+                  type="text"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  placeholder="Seu nome"
+                  required
+                  minLength={2}
+                  autoComplete="name"
+                />
               </div>
             )}
-            <div className="input-group">
-              <label className="input-label">Email</label>
-              <input className="input" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="seu@email.com" required autoComplete="email" />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Senha</label>
-              <input className="input" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder={mode === 'register' ? 'Mínimo 6 caracteres' : 'Sua senha'} required minLength={6} autoComplete={mode === 'login' ? 'current-password' : 'new-password'} />
+
+            <div style={styles.fieldWrap}>
+              <label style={styles.label}>E-mail</label>
+              <input
+                style={styles.input}
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="seu@email.com"
+                required
+                autoComplete="email"
+              />
             </div>
 
-            <button type="submit" className="btn btn-primary btn-full" disabled={isLoading} style={{ marginTop: 8 }}>
+            <div style={styles.fieldWrap}>
+              <label style={styles.label}>Senha</label>
+              <input
+                style={styles.input}
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder={mode === 'register' ? 'Mínimo 6 caracteres' : '••••••••'}
+                required
+                minLength={6}
+                autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+              />
+              {mode === 'login' && (
+                <div style={styles.hint}>
+                  Esqueceu?{' '}
+                  <a href="#" style={{ color: '#C9A96E', textDecoration: 'none' }}>
+                    Recuperar acesso
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <button type="submit" style={styles.submitBtn} disabled={isLoading}>
               {isLoading
-                ? <><div className="spinner" style={{ borderTopColor: '#fff' }} /> Aguarde...</>
-                : mode === 'login' ? '🚀 Entrar' : '✨ Criar minha conta'}
+                ? 'Aguarde...'
+                : mode === 'login'
+                ? 'Entrar na plataforma'
+                : 'Criar minha conta'}
             </button>
           </form>
 
           {mode === 'login' && (
-            <div style={{ marginTop: 20, padding: '14px 16px', background: 'var(--bg3)', borderRadius: 'var(--r-md)', fontSize: 12, color: 'var(--muted)' }}>
-              💡 <strong style={{ color: 'var(--accent2)' }}>Sem conta?</strong> Clique em "Criar conta" acima. É gratuito!
-            </div>
+            <>
+              <div style={styles.divider}>
+                <hr style={styles.dividerLine} />
+                <span style={styles.dividerText}>ou</span>
+                <hr style={styles.dividerLine} />
+              </div>
+              <button style={styles.altBtn} onClick={() => { setMode('register'); clearError(); }}>
+                Criar conta — é gratuito
+              </button>
+            </>
           )}
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: 20, fontSize: 12, color: 'var(--subtle)' }}>
-          Preparação focada na prova FAETEC/COSEAC
+        {/* ── DIREITA: painel decorativo ── */}
+        <div style={styles.right}>
+          <div style={styles.rightBg} />
+          <div style={styles.rightPattern} />
+          <div style={styles.badge}>✦ Plataforma Enterprise</div>
+
+          {/* Círculos decorativos */}
+          {[400, 280, 160].map((size, i) => (
+            <div key={i} style={{
+              position: 'absolute',
+              zIndex: 1,
+              top: '50%',
+              left: '50%',
+              width: size,
+              height: size,
+              borderRadius: '50%',
+              border: '1px solid rgba(201,169,110,0.08)',
+              transform: 'translate(-50%, -50%)',
+            }} />
+          ))}
+
+          <div style={styles.quote}>
+            <p style={styles.quoteText}>
+              "Educação não transforma o mundo. Educação muda as pessoas. Pessoas transformam o mundo."
+            </p>
+            <div style={styles.quoteAuthor}>Paulo Freire · Pedagogo e educador brasileiro</div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
